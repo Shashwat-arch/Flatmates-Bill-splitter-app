@@ -1,46 +1,21 @@
-class Bill:
-    """
-    Object that contains data about a bill such as total amount and period
-    of the bill
-    """
+from flat import Bill, Flatmate
+from reports import PdfReport
 
-    def __init__(self, amount, period):
-        self.amount = amount
-        self.period = period
+amount = int(input("Enter the bill amount : "))
+period = input("Enter the period(Month year) : ")
 
+name1 = input("Enter the name of first person: ")
+days_in_house1 = int(input(f"How many days did {name1} stayed in the house during the {period} period : "))
 
-class Flatmate:
-    """
-    creates a flatmate person who lives in the flat and pays the
-    share of the bill.
-    """
+name2 = input("Enter the name of second person: ")
+days_in_house2 = int(input(f"How many days did {name2} stayed in the house during the {period} period : "))
 
-    def __init__(self, name, days_in_house):
-        self.name = name
-        self.days_in_house = days_in_house
+the_bill = Bill(amount, period)
+first_person = Flatmate(name1, days_in_house1)
+second_person = Flatmate(name2, days_in_house2)
 
-    def pays(self, bill, Flatmate2):
-        weight = self.days_in_house / (self.days_in_house + Flatmate2.days_in_house)
-        to_pay = bill.amount * weight
-        return to_pay
+# print(f"{first_person.name} pays : ", first_person.pays(bill=the_bill, Flatmate2=second_person))
+# print(f"{second_person.name} pays : ", second_person.pays(bill=the_bill, Flatmate2=first_person))
 
-
-class PdfReport:
-    """
-    create a pdf file that contain data about the flatmates such as
-    their names, their amount and the period of the bill.
-    """
-
-    def __init__(self, filename):
-        self.filename = filename
-
-    def generate(self, flatmate1, flatmate2, bill):
-        pass
-
-the_bill = Bill(amount=120, period="December 2022")
-john = Flatmate(name="john", days_in_house=20)
-marry = Flatmate(name="marry", days_in_house=25)
-
-print("John pays : ", john.pays(bill=the_bill, Flatmate2=marry))
-print("Marry pays : ", marry.pays(bill=the_bill, Flatmate2=john))
-
+generate_pdf = PdfReport(f"{period}.pdf")
+generate_pdf.generate(first_person, second_person, the_bill)
